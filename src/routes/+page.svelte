@@ -10,6 +10,9 @@
 		grade?: number,
 	}
 
+	const FOUND_COLOR = 'green';
+	const NOT_FOUND_COLOR = 'red';
+
 	const pairs: string[][] = [];
 
 	function add(a: string, b: string) {
@@ -106,7 +109,10 @@
 		const value = (event.target as HTMLInputElement).value.toLowerCase();
 		const { answer } = question;
 		if (answer === value) {
-			quizResults[questionIndex] = {grade: question.word.length};
+			quizResults[questionIndex] = {
+				text: `<span style="color: ${FOUND_COLOR}">${question.text}</span>`,
+				grade: question.word.length
+			};
 			return;
 		}
 		console.log('\n');
@@ -118,63 +124,74 @@
 
 		const result: boolean[] = [];
 		question.word.forEach(part => {
-			// if notFound === 0 index === 0
 			const end = start + ((notFound + 1) * maxTokenLength) - notFound;
 			const slice = value.slice(start, end);
-			console.log('slice:', slice, part[1]);
 			const sliceIndex = slice.indexOf(part[1]);
+			console.log('slice:', slice, part[1]);
 
 			const found = notFound === 0 ? sliceIndex === 0 : sliceIndex !== -1;
-			if (!found) {
-				start += 1;
-				notFound += 1;
-			} else {
-				start = start + sliceIndex + part[1].length;
-				notFound = 0;
-			}
+			start = start + (found ? sliceIndex + part[1].length : 1);
+			notFound = found ? 0 : notFound + 1;
+
 			result.push(found);
 		});
+
+		// last found must be at the end
+		console.log('last slice', value.slice(start));
+		if (notFound === 0 && value.slice(start).length > 0) {
+			result[result.length - 1] = false;
+		}
 
 		quizResults[questionIndex] = question.word.reduce((acc, part, index) => {
 			const qPart = part[0];
 			const found = result[index];
 
-			acc.text = acc.text + (found ? qPart : `<b style="color: red">${qPart}</b>`);
+			const color = found ? FOUND_COLOR : NOT_FOUND_COLOR;
+			acc.text = acc.text + `<span style="color: ${color}">${qPart}</span>`;
 			acc.grade += found ? 1 : 0;
 
 			return acc;
 		}, { text: '', grade: 0 });
 	}
 
-	let finalGrade: number
-	$: finalGrade = quizResults.reduce((acc, r) => acc + (r.grade || 0), 0)
+	let finalGrade: number;
+	$: finalGrade = quizResults.reduce((acc, r) => acc + (r.grade || 0), 0);
 </script>
 
-<h1>Characters test</h1>
-{#each quiz as question, index}
-	<div class="q-row">
-		<div>
-			{#if !!quizResults[index].text}
-				<h1>{@html quizResults[index].text}</h1>
-			{:else}
-				<h1>{question.text}</h1>
-			{/if}
-		</div>
-		<div>
-			<input type="text" maxlength="{question.word.length * 3}"
-						 on:change={(e) => evalQuestion(question, index, e)} />
-		</div>
-	</div>
-{/each}
 
-<div class="q-row">
-	<div><h3>Grade</h3></div>
-	<div><input type="text" value="{finalGrade}/{pairs.length}" readonly /></div>
+<h1 class="text-4xl font-bold my-8">Hiraana to Romanji</h1>
+
+<div class="columns-md pt-2">
+	{#each quiz as question, index}
+		<div class="py-2">
+			<div class="inline-block">
+				<h2 class="text-4xl font-bold">
+					{#if !!quizResults[index].text}
+						{@html quizResults[index].text}
+					{:else}
+						{question.text}
+					{/if}
+				</h2>
+			</div>
+			<div class="inline-block pl-4">
+				<input type="text" maxlength="{question.word.length * 3}"
+							 class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+							 on:change={(e) => evalQuestion(question, index, e)}>
+			</div>
+		</div>
+	{/each}
 </div>
 
+<div class="my-6">
+	<div class="inline-block">
+		<h2 class="text-4xl font-bold">Grade</h2>
+	</div>
+	<div class="inline-block pl-4">
+		<input type="text" value="{finalGrade}/{pairs.length}" readonly
+					 class="text-3xl" />
+	</div>
+</div>
+
+
 <style>
-    .q-row div {
-        display: inline-block;
-        margin-left: 2rem;
-    }
 </style>
