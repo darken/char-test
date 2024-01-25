@@ -1,20 +1,16 @@
 const FOUND_COLOR = 'green';
 const NOT_FOUND_COLOR = 'red';
 
-export type Question = {
-	text: string,
-	answer: string,
-	word: string[][],
-}
-
 type Result = {
 	text?: string,
 	grade?: number,
 }
 
-type Quiz = {
-	questions: Question[],
-	results: Result[],
+export type Question = {
+	text: string,
+	answer: string,
+	word: string[][],
+	result: Result,
 }
 
 export class QuizFactory {
@@ -28,7 +24,11 @@ export class QuizFactory {
 		this.#pairs.push([a, b]);
 	}
 
-	createQuiz(wordLength = 4): Quiz {
+	set pairs(pairs: string[][]) {
+		this.#pairs = pairs;
+	}
+
+	createQuiz(wordLength = 4): Question[] {
 		const remainder = [...this.#pairs];
 		const words: string[][][] = [];
 
@@ -49,22 +49,20 @@ export class QuizFactory {
 		}
 
 		const questions: Question[] = [];
-		const results: Result[] = [];
 
 		words.forEach(word => {
-			const question: Question = { text: '', answer: '', word };
+			const question: Question = { text: '', answer: '', word, result: {} };
 			word.forEach(pair => {
 				question.text += pair[0];
 				question.answer += pair[1];
 			});
 			questions.push(question);
-			results.push({});
 		});
-		return { questions, results };
+		return questions;
 	}
 }
 
-export function grade(question: Question, questionIndex: number, value: string, maxTokenLength: number): Result {
+export function grade(question: Question, value: string, maxTokenLength: number): Result {
 	const { answer } = question;
 	if (answer === value) {
 		return {
