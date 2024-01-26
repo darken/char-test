@@ -18,11 +18,11 @@
 </script>
 
 
-<div class="columns-md pt-2">
+<div class="sm:columns-2 lg:columns-3 xl:columns-4 pt-2">
 	{#each questions as question, index}
-		<div class="py-2">
-			<div class="inline-block">
-				<h2 class="text-5xl font-bold">
+		<div class="flex flex-col md:flex-row py-2">
+			<div>
+				<h2 class="text-5xl font-bold mb-2 md:mb-0">
 					{#if !!question.result.text}
 						{@html question.result.text}
 					{:else}
@@ -30,7 +30,7 @@
 					{/if}
 				</h2>
 			</div>
-			<div class="inline-block pl-4">
+			<div class="md:flex-1 md:pl-4">
 				<input type="text" maxlength="{question.word.length * maxTokenLength}"
 							 class="bg-gray-50 border border-gray-300 text-gray-900 text-lg rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5
 							 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"

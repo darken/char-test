@@ -30,20 +30,20 @@
 
 <div class="columns-md pt-2">
 	{#each questions as question, questionIndex}
-		<div class="py-2">
-			<div class="inline-block">
-				{#each question.word as c, charIndex}
+		<div class="columns-4 py-2">
+			{#each question.word as c, charIndex}
+				<div>
 					<button on:click={() => onCharClick(questionIndex, charIndex)}
-									class="text-white focus:ring-4 font-medium rounded-lg text-3xl px-5 py-2.5 mx-0.5
-									focus:outline-none {getButtonClasses(status[questionIndex][charIndex])}">
+									class="text-3xl text-white focus:ring-4 font-medium rounded-lg w-full py-2.5
+									focus:outline-nones {getButtonClasses(status[questionIndex][charIndex])}">
 						{#if status[questionIndex][charIndex] === 0}
 							{c[1]}
 						{:else}
 							{c[0]}
 						{/if}
 					</button>
-				{/each}
-			</div>
+				</div>
+			{/each}
 		</div>
 	{/each}
 </div>
