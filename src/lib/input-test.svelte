@@ -31,8 +31,9 @@
 				</h2>
 			</div>
 			<div class="inline-block pl-4">
-				<input type="text" maxlength="{question.word.length * 3}"
-							 class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+				<input type="text" maxlength="{question.word.length * maxTokenLength}"
+							 class="bg-gray-50 border border-gray-300 text-gray-900 text-lg rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5
+							 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
 							 on:change={(e) => onAnswerChange(question, index, e)}>
 			</div>
 		</div>
@@ -45,6 +46,6 @@
 	</div>
 	<div class="inline-block pl-4">
 		<input type="text" value="{finalGrade}/{pairsLength}" readonly
-					 class="text-3xl" />
+					 class="text-3xl bg-transparent" />
 	</div>
 </div>
