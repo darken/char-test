@@ -2,6 +2,6 @@
 	import '../app.css';
 </script>
 
-<div class="container mx-auto px-2 pt-2">
+<div class="container sm:mx-auto px-2 pt-2">
 	<slot />
 </div>
