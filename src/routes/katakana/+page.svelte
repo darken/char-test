@@ -1,5 +1,6 @@
 <script lang="ts">
 	import InputTest from '$lib/input-test.svelte';
+	import SelfTest from '$lib/self-test.svelte';
 	import { QuizFactory } from '$lib/quiz';
 
 	const pairs: string[][] = [];
@@ -30,7 +31,7 @@
 	pairs.push(['ノ', 'no']);
 	pairs.push(['ハ', 'ha']);
 	pairs.push(['ヒ', 'hi']);
-	pairs.push(['フ', 'hu']);
+	pairs.push(['フ', 'fu']);
 	pairs.push(['ヘ', 'he']);
 	pairs.push(['ホ', 'ho']);
 	pairs.push(['マ', 'ma']);
@@ -57,3 +58,5 @@
 
 <h1 class="text-4xl font-bold my-8">Katakana / Romanji</h1>
 <InputTest factory={factory}></InputTest>
+<div class="py-4"></div>
+<SelfTest factory={factory}></SelfTest>

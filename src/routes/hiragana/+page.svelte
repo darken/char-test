@@ -58,7 +58,5 @@
 
 <h1 class="text-4xl font-bold my-8">Hiragana / Romanji</h1>
 <InputTest factory={factory}></InputTest>
-
 <div class="py-4"></div>
-
 <SelfTest factory={factory}></SelfTest>
