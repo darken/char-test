@@ -29,15 +29,15 @@
 			<div class="mt-3 pr-4">
 				<input type="text" maxlength="{question.word.length * maxTokenLength}" placeholder="ひらがな"
 							 class="bg-gray-50 border text-gray-900 text-lg rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5
-							 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500
-							 {question.result[0] ? 'border-gray-300' : 'border-red-600'}"
+							 dark:bg-gray-700 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500
+							 {question.result[0] ? 'border-gray-300 dark:border-gray-600' : 'border-red-500 dark:border-red-700'}"
 							 on:change={(e) => onAnswerChange(0, question, index, e)}>
 			</div>
 			<div class="mt-3 pr-4">
 				<input type="text" maxlength="{question.word.length * maxTokenLength}" placeholder="カタカナ"
-							 class="bg-gray-50 border border-gray-300 text-gray-900 text-lg rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5
-							 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500
-							 {question.result[1] ? 'border-gray-300' : 'border-red-600'}"
+							 class="bg-gray-50 border text-gray-900 text-lg rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5
+							 dark:bg-gray-700 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500
+							 {question.result[1] ? 'border-gray-300 dark:border-gray-600' : 'border-red-500 dark:border-red-700'}"
 							 on:change={(e) => onAnswerChange(1, question, index, e)}>
 			</div>
 		</div>
