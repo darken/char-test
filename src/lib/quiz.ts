@@ -10,7 +10,7 @@ export type Question = {
 	text: string,
 	answer: string | string[],
 	word: string[][],
-	result: Result | boolean[],
+	result: Result | number[],
 }
 
 export class QuizFactory {
@@ -55,10 +55,10 @@ export class QuizFactory {
 			let question: Question;
 			if (multiAnswer) {
 				const answer: string[] = [];
-				const result: boolean[] = [];
+				const result: number[] = [];
 				for (let i = 0; i < answerLength; i++) {
 					answer.push('');
-					result.push(true);
+					result.push(-1);
 				}
 				question = { text: '', answer, word, result };
 			} else {
@@ -123,9 +123,11 @@ export function grade(question: Question, value: string, maxTokenLength: number)
 	}, { text: '', grade: 0 });
 }
 
-export function gradeAnswer(question: Question, answer: string, value: string, maxTokenLength: number): boolean {
-	if (answer === value) {
-		return true;
+export function gradeAnswer(question: Question, answer: string, value: string, maxTokenLength: number): number {
+	if (!value) {
+		return -1;
+	} else if (answer === value) {
+		return 1;
 	}
 
 	let start = 0;
@@ -149,5 +151,5 @@ export function gradeAnswer(question: Question, answer: string, value: string, m
 		result[result.length - 1] = false;
 	}
 
-	return result.every(value => value);
+	return result.every(value => value) ? 1 : 0;
 }

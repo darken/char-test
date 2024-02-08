@@ -9,12 +9,23 @@
 
 	function onAnswerChange(ansIndex: number, question: Question, index: number, event: Event) {
 		const value = (event.target as HTMLInputElement).value.toLowerCase();
-		(question.result as boolean[])[ansIndex] = gradeAnswer(question, question.answer[ansIndex], value, maxTokenLength);
+		(question.result as number[])[ansIndex] = gradeAnswer(question, question.answer[ansIndex], value, maxTokenLength);
 		questions[index] = question;
 	}
 
 	let finalGrade: number;
-	$: finalGrade = questions.reduce((acc, q) => acc + ((q.result as boolean[]).every(v => v) ? 1 : 0), 0);
+	$: finalGrade = questions.reduce((acc, q) => acc + ((q.result as number[]).every(v => v === 1) ? 1 : 0), 0);
+
+	function resultBorder(result: number) {
+		switch (result) {
+			case -1:
+				return 'border-gray-300 dark:border-gray-600';
+			case 0:
+				return 'border-red-500 dark:border-red-700';
+			case 1:
+				return 'border-blue-500 dark:border-blue-700';
+		}
+	}
 </script>
 
 
@@ -30,14 +41,14 @@
 				<input type="text" maxlength="{question.word.length * maxTokenLength}" placeholder="ひらがな"
 							 class="bg-gray-50 border text-gray-900 text-lg rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5
 							 dark:bg-gray-700 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500
-							 {question.result[0] ? 'border-gray-300 dark:border-gray-600' : 'border-red-500 dark:border-red-700'}"
+							 {resultBorder(question.result[0])}"
 							 on:change={(e) => onAnswerChange(0, question, index, e)}>
 			</div>
 			<div class="mt-3 pr-4">
 				<input type="text" maxlength="{question.word.length * maxTokenLength}" placeholder="カタカナ"
 							 class="bg-gray-50 border text-gray-900 text-lg rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5
 							 dark:bg-gray-700 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500
-							 {question.result[1] ? 'border-gray-300 dark:border-gray-600' : 'border-red-500 dark:border-red-700'}"
+							 {resultBorder(question.result[1])}"
 							 on:change={(e) => onAnswerChange(1, question, index, e)}>
 			</div>
 		</div>
