@@ -39,7 +39,7 @@
 			return array;
 		}
 
-		function buildWords(pairs: string[][], min: number = 2, max: number = 6): string[] {
+		function buildWords(pairs: string[][], min: number = 3, max: number = 6): string[] {
 			const remainder = shuffle(pairs);
 			const words: string[] = [];
 
@@ -51,7 +51,7 @@
 			return words;
 		}
 
-		const phrasesCount = 8;
+		const phrasesCount = 10;
 		const phraseLength = words.length / phrasesCount;
 
 		const phrases: string[] = [];
@@ -68,7 +68,7 @@
 
 <div class="pt-2">
 	{#each phrases as phrase}
-		<h2 class="text-5xl font-bold pb-9">
+		<h2 class="text-4xl font-bold pb-9">
 			{phrase}
 		</h2>
 	{/each}
